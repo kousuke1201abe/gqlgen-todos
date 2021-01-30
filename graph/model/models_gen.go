@@ -2,6 +2,10 @@
 
 package model
 
+type DeleteTodo struct {
+	TodoID string `json:"todoId"`
+}
+
 type NewTodo struct {
 	Text   string `json:"text"`
 	UserID string `json:"userId"`
