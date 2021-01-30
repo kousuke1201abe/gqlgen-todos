@@ -5,6 +5,7 @@ package graph
 
 import (
 	"context"
+	"fmt"
 	"log"
 
 	"github.com/google/uuid"
@@ -12,6 +13,10 @@ import (
 	"github.com/kousuke1201abe/gqlgen-todos/graph/generated"
 	"github.com/kousuke1201abe/gqlgen-todos/graph/model"
 )
+
+func (r *mutationResolver) UpdateTodo(ctx context.Context, input model.UpdateTodo) (*model.Todo, error) {
+	panic(fmt.Errorf("not implemented"))
+}
 
 func (r *mutationResolver) CreateTodo(ctx context.Context, input model.NewTodo) (*model.Todo, error) {
 	log.Printf("[mutationResolver.CreateTodo] input: %#v", input)

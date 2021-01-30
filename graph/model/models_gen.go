@@ -14,3 +14,7 @@ type NewTodo struct {
 type NewUser struct {
 	Name string `json:"name"`
 }
+
+type UpdateTodo struct {
+	TodoID string `json:"todoID"`
+}
