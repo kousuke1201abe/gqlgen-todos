@@ -22,6 +22,7 @@ type TodoRepository interface {
 	All() ([]*Todo, error)
 	FindByUserID(userID string) ([]*Todo, error)
 	Find(id string) (*Todo, error)
+	Destroy(t *Todo) (*Todo, error)
 }
 
 func NewTodoRepository(db *gorm.DB) TodoRepository {
@@ -64,4 +65,12 @@ func (d *TodoDao) FindByUserID(userID string) ([]*Todo, error) {
 		return nil, err
 	}
 	return todos, nil
+}
+
+func (d *TodoDao) Destroy(t *Todo) (*Todo, error) {
+	res := d.db.Delete(t)
+	if err := res.Error; err != nil {
+		return nil, err
+	}
+	return t, nil
 }
