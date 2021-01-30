@@ -38,6 +38,7 @@ input NewUser {
 
 input UpdateTodo {
   todoID: String!
+  text: String!
 }
 
 type Mutation {

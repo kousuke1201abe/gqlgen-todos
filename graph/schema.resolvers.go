@@ -5,7 +5,6 @@ package graph
 
 import (
 	"context"
-	"fmt"
 	"log"
 
 	"github.com/google/uuid"
@@ -15,7 +14,26 @@ import (
 )
 
 func (r *mutationResolver) UpdateTodo(ctx context.Context, input model.UpdateTodo) (*model.Todo, error) {
-	panic(fmt.Errorf("not implemented"))
+	log.Printf("[mutationResolver.UpdateTodo] input: %#v", input)
+	todoRepository := database.NewTodoRepository(r.DB)
+	todo, err := todoRepository.Find(input.TodoID)
+	if err != nil {
+		return nil, err
+	}
+	todo.Text = input.Text
+	err = todoRepository.Save(todo)
+	if err != nil {
+		return nil, err
+	}
+	todo, err = todoRepository.Find(input.TodoID)
+	if err != nil {
+		return nil, err
+	}
+	return &model.Todo{
+		ID:   todo.ID,
+		Text: todo.Text,
+		Done: todo.Done,
+	}, nil
 }
 
 func (r *mutationResolver) CreateTodo(ctx context.Context, input model.NewTodo) (*model.Todo, error) {

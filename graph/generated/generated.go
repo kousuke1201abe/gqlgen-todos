@@ -346,6 +346,7 @@ input NewUser {
 
 input UpdateTodo {
   todoID: String!
+  text: String!
 }
 
 type Mutation {
@@ -2309,6 +2310,14 @@ func (ec *executionContext) unmarshalInputUpdateTodo(ctx context.Context, obj in
 
 			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("todoID"))
 			it.TodoID, err = ec.unmarshalNString2string(ctx, v)
+			if err != nil {
+				return it, err
+			}
+		case "text":
+			var err error
+
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("text"))
+			it.Text, err = ec.unmarshalNString2string(ctx, v)
 			if err != nil {
 				return it, err
 			}
