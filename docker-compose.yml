@@ -11,5 +11,3 @@ services:
       MYSQL_USER: localuser
       MYSQL_PASSWORD: localpass
       MYSQL_DATABASE: localdb
-    volumes:
-      - ./persistence/init:/docker-entrypoint-initdb.d
