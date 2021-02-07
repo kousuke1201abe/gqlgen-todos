@@ -8,8 +8,8 @@ import (
 	"github.com/99designs/gqlgen/graphql/handler"
 	"github.com/99designs/gqlgen/graphql/playground"
 	"github.com/jinzhu/gorm"
-	"github.com/kousuke1201abe/gqlgen-todos/graph"
 	"github.com/kousuke1201abe/gqlgen-todos/graph/generated"
+	"github.com/kousuke1201abe/gqlgen-todos/graph/resolvers"
 
 	_ "github.com/go-sql-driver/mysql"
 )
@@ -39,7 +39,7 @@ func main() {
 	}()
 	db.LogMode(true)
 
-	srv := handler.NewDefaultServer(generated.NewExecutableSchema(generated.Config{Resolvers: &graph.Resolver{DB: db}}))
+	srv := handler.NewDefaultServer(generated.NewExecutableSchema(generated.Config{Resolvers: &resolvers.Resolver{DB: db}}))
 
 	http.Handle("/", playground.Handler("GraphQL playground", "/query"))
 	http.Handle("/query", srv)

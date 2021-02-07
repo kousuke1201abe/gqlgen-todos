@@ -306,31 +306,27 @@ func (ec *executionContext) introspectType(name string) (*introspection.Type, er
 }
 
 var sources = []*ast.Source{
-	{Name: "graph/schema.graphqls", Input: `# GraphQL schema example
-#
-# https://gqlgen.com/getting-started/
-
-type Todo {
+	{Name: "graph/schemata/mutation.graphqls", Input: `
+type Mutation {
+  updateTodo(input: UpdateTodo!): Todo!
+  createTodo(input: NewTodo!): Todo!
+  deleteTodo(input: DeleteTodo!): Todo!
+  createUser(input: NewUser!): User!
+}
+`, BuiltIn: false},
+	{Name: "graph/schemata/query.graphqls", Input: `type Query {
+  todos: [Todo!]!
+  todo(id: ID!): Todo!
+  users: [User!]!
+  user(id: ID!): User!
+}
+`, BuiltIn: false},
+	{Name: "graph/schemata/todo.graphqls", Input: `type Todo {
   id: ID!
   text: String!
   done: Boolean!
   user: User!
 }
-
-type User {
-  id: ID!
-  name: String!
-  todos: [Todo!]!
-}
-
-type Query {
-  todos: [Todo!]!
-  todo(id: ID!): Todo!
-
-  users: [User!]!
-  user(id: ID!): User!
-}
-
 input NewTodo {
   text: String!
   userId: String!
@@ -339,21 +335,22 @@ input NewTodo {
 input DeleteTodo {
   todoId: String!
 }
-
-input NewUser {
-  name: String!
-}
-
 input UpdateTodo {
   todoID: String!
   text: String!
 }
+`, BuiltIn: false},
+	{Name: "graph/schemata/user.graphqls", Input: `# GraphQL schema example
+#
+# https://gqlgen.com/getting-started
+type User {
+  id: ID!
+  name: String!
+  todos: [Todo!]!
+}
 
-type Mutation {
-  updateTodo(input: UpdateTodo!): Todo!
-  createTodo(input: NewTodo!): Todo!
-  deleteTodo(input: DeleteTodo!): Todo!
-  createUser(input: NewUser!): User!
+input NewUser {
+  name: String!
 }
 `, BuiltIn: false},
 }
