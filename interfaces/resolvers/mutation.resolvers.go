@@ -1,29 +1,30 @@
-package resolvers
+package interfaces
 
 // This file will be automatically regenerated based on the schema, any resolver implementations
 // will be copied through when generating and any unknown code will be moved to the end.
 
 import (
 	"context"
+	"fmt"
 
-	"github.com/kousuke1201abe/gqlgen-todos/domain/model"
+	"github.com/kousuke1201abe/gqlgen-todos/app/domain/model"
 	"github.com/kousuke1201abe/gqlgen-todos/graph/generated"
 )
 
 func (r *mutationResolver) UpdateTodo(ctx context.Context, input model.UpdateTodo) (*model.Todo, error) {
-	return r.Repository.NewTodoUsecase().Update(input.TodoID, input.Text)
+	panic(fmt.Errorf("not implemented"))
 }
 
 func (r *mutationResolver) CreateTodo(ctx context.Context, input model.NewTodo) (*model.Todo, error) {
-	return r.Repository.NewTodoUsecase().Create(input.Text, input.UserID)
+	panic(fmt.Errorf("not implemented"))
 }
 
 func (r *mutationResolver) DeleteTodo(ctx context.Context, input model.DeleteTodo) (*model.Todo, error) {
-	return r.Repository.NewTodoUsecase().Delete(input.TodoID)
+	panic(fmt.Errorf("not implemented"))
 }
 
 func (r *mutationResolver) CreateUser(ctx context.Context, input model.NewUser) (*model.User, error) {
-	return r.Repository.NewUserUsecase().Create(input.Name)
+	panic(fmt.Errorf("not implemented"))
 }
 
 // Mutation returns generated.MutationResolver implementation.

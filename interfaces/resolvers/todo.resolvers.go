@@ -1,27 +1,18 @@
-package resolvers
+package interfaces
 
 // This file will be automatically regenerated based on the schema, any resolver implementations
 // will be copied through when generating and any unknown code will be moved to the end.
 
 import (
 	"context"
-	"log"
+	"fmt"
 
-	"github.com/kousuke1201abe/gqlgen-todos/domain/model"
+	"github.com/kousuke1201abe/gqlgen-todos/app/domain/model"
 	"github.com/kousuke1201abe/gqlgen-todos/graph/generated"
 )
 
 func (r *todoResolver) User(ctx context.Context, obj *model.Todo) (*model.User, error) {
-	log.Printf("[todoResolver.User]")
-	user, err := r.Repository.NewUserRepository().FindByTodoID(obj.ID)
-	if err != nil {
-		return nil, err
-	}
-	result := &model.User{
-		ID:   user.ID,
-		Name: user.Name,
-	}
-	return result, nil
+	panic(fmt.Errorf("not implemented"))
 }
 
 // Todo returns generated.TodoResolver implementation.
