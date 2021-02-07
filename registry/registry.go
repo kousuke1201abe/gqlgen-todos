@@ -2,10 +2,10 @@ package registry
 
 import (
 	"github.com/jinzhu/gorm"
+	"github.com/kousuke1201abe/gqlgen-todos/application/usecase"
 	"github.com/kousuke1201abe/gqlgen-todos/config/database"
 	"github.com/kousuke1201abe/gqlgen-todos/domain/repository"
 	"github.com/kousuke1201abe/gqlgen-todos/infrastructure"
-	"github.com/kousuke1201abe/gqlgen-todos/usecase"
 )
 
 type Repository interface {
