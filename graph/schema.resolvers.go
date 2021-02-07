@@ -9,8 +9,8 @@ import (
 
 	"github.com/google/uuid"
 	"github.com/kousuke1201abe/gqlgen-todos/database"
+	"github.com/kousuke1201abe/gqlgen-todos/domain/model"
 	"github.com/kousuke1201abe/gqlgen-todos/graph/generated"
-	"github.com/kousuke1201abe/gqlgen-todos/graph/model"
 )
 
 func (r *mutationResolver) UpdateTodo(ctx context.Context, input model.UpdateTodo) (*model.Todo, error) {
@@ -39,7 +39,7 @@ func (r *mutationResolver) UpdateTodo(ctx context.Context, input model.UpdateTod
 func (r *mutationResolver) CreateTodo(ctx context.Context, input model.NewTodo) (*model.Todo, error) {
 	log.Printf("[mutationResolver.CreateTodo] input: %#v", input)
 	id, _ := uuid.NewRandom()
-	todo, err := database.NewTodoRepository(r.DB).Create(&database.Todo{
+	todo, err := database.NewTodoRepository(r.DB).Create(&model.Todo{
 		ID:     id.String(),
 		Text:   input.Text,
 		Done:   false,
@@ -76,7 +76,7 @@ func (r *mutationResolver) DeleteTodo(ctx context.Context, input model.DeleteTod
 func (r *mutationResolver) CreateUser(ctx context.Context, input model.NewUser) (*model.User, error) {
 	log.Printf("[mutationResolver.CreateUser] input: %#v", input)
 	id, _ := uuid.NewRandom()
-	user, err := database.NewUserRepository(r.DB).Create(&database.User{
+	user, err := database.NewUserRepository(r.DB).Create(&model.User{
 		ID:   id.String(),
 		Name: input.Name,
 	})

@@ -2,14 +2,10 @@ package database
 
 import (
 	"github.com/jinzhu/gorm"
+	"github.com/kousuke1201abe/gqlgen-todos/domain/model"
 )
 
-type User struct {
-	ID   string `gorm:"column:id;primary_key"`
-	Name string `gorm:"column:name"`
-}
-
-func (u *User) TableName() string {
+func (d *UserDao) TableName() string {
 	return "users"
 }
 
@@ -18,17 +14,17 @@ type UserDao struct {
 }
 
 type UserRepository interface {
-	Create(u *User) (*User, error)
-	All() ([]*User, error)
-	FindByTodoID(todoID string) (*User, error)
-	Find(id string) (*User, error)
+	Create(u *model.User) (*model.User, error)
+	All() ([]*model.User, error)
+	FindByTodoID(todoID string) (*model.User, error)
+	Find(id string) (*model.User, error)
 }
 
 func NewUserRepository(db *gorm.DB) UserRepository {
 	return &UserDao{db: db}
 }
 
-func (d *UserDao) Create(u *User) (*User, error) {
+func (d *UserDao) Create(u *model.User) (*model.User, error) {
 	res := d.db.Create(u)
 	if err := res.Error; err != nil {
 		return nil, err
@@ -36,8 +32,8 @@ func (d *UserDao) Create(u *User) (*User, error) {
 	return u, nil
 }
 
-func (d *UserDao) All() ([]*User, error) {
-	var Users []*User
+func (d *UserDao) All() ([]*model.User, error) {
+	var Users []*model.User
 	res := d.db.Find(&Users)
 	if err := res.Error; err != nil {
 		return nil, err
@@ -45,8 +41,8 @@ func (d *UserDao) All() ([]*User, error) {
 	return Users, nil
 }
 
-func (d *UserDao) Find(id string) (*User, error) {
-	var Users []*User
+func (d *UserDao) Find(id string) (*model.User, error) {
+	var Users []*model.User
 	res := d.db.Where("id = ?", id).Find(&Users)
 	if err := res.Error; err != nil {
 		return nil, err
@@ -57,8 +53,8 @@ func (d *UserDao) Find(id string) (*User, error) {
 	return Users[0], nil
 }
 
-func (d *UserDao) FindByTodoID(todoID string) (*User, error) {
-	var users []*User
+func (d *UserDao) FindByTodoID(todoID string) (*model.User, error) {
+	var users []*model.User
 	res := d.db.Table("users").
 		Select("users.*").
 		Joins("LEFT JOIN todos ON todos.user_id = users.id").
