@@ -7,7 +7,7 @@ import (
 	"context"
 
 	"github.com/kousuke1201abe/gqlgen-todos/app/domain/model"
-	"github.com/kousuke1201abe/gqlgen-todos/graph/generated"
+	"github.com/kousuke1201abe/gqlgen-todos/graphql/generated"
 )
 
 func (r *mutationResolver) UpdateTodo(ctx context.Context, input model.UpdateTodo) (*model.Todo, error) {

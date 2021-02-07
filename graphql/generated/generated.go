@@ -306,7 +306,7 @@ func (ec *executionContext) introspectType(name string) (*introspection.Type, er
 }
 
 var sources = []*ast.Source{
-	{Name: "graph/schemata/mutation.graphqls", Input: `
+	{Name: "graphql/schemata/mutation.graphqls", Input: `
 type Mutation {
   updateTodo(input: UpdateTodo!): Todo!
   createTodo(input: NewTodo!): Todo!
@@ -314,14 +314,14 @@ type Mutation {
   createUser(input: NewUser!): User!
 }
 `, BuiltIn: false},
-	{Name: "graph/schemata/query.graphqls", Input: `type Query {
+	{Name: "graphql/schemata/query.graphqls", Input: `type Query {
   todos: [Todo!]!
   todo(id: ID!): Todo!
   users: [User!]!
   user(id: ID!): User!
 }
 `, BuiltIn: false},
-	{Name: "graph/schemata/todo.graphqls", Input: `type Todo {
+	{Name: "graphql/schemata/todo.graphqls", Input: `type Todo {
   id: ID!
   text: String!
   done: Boolean!
@@ -340,7 +340,7 @@ input UpdateTodo {
   text: String!
 }
 `, BuiltIn: false},
-	{Name: "graph/schemata/user.graphqls", Input: `# GraphQL schema example
+	{Name: "graphql/schemata/user.graphqls", Input: `# GraphQL schema example
 #
 # https://gqlgen.com/getting-started
 type User {

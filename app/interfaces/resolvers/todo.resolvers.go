@@ -8,7 +8,7 @@ import (
 	"log"
 
 	"github.com/kousuke1201abe/gqlgen-todos/app/domain/model"
-	"github.com/kousuke1201abe/gqlgen-todos/graph/generated"
+	"github.com/kousuke1201abe/gqlgen-todos/graphql/generated"
 )
 
 func (r *todoResolver) User(ctx context.Context, obj *model.Todo) (*model.User, error) {
