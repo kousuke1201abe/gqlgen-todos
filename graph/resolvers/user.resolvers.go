@@ -9,12 +9,11 @@ import (
 
 	"github.com/kousuke1201abe/gqlgen-todos/domain/model"
 	"github.com/kousuke1201abe/gqlgen-todos/graph/generated"
-	"github.com/kousuke1201abe/gqlgen-todos/infrastructure"
 )
 
 func (r *userResolver) Todos(ctx context.Context, obj *model.User) ([]*model.Todo, error) {
 	log.Println("[userResolver.Todos]")
-	todos, err := infrastructure.NewTodoRepository(r.DB).FindByUserID(obj.ID)
+	todos, err := r.Repository.NewTodoRepository().FindByUserID(obj.ID)
 	if err != nil {
 		return nil, err
 	}

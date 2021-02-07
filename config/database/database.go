@@ -15,13 +15,14 @@ func NewDB() *gorm.DB {
 	if db == nil {
 		panic(err)
 	}
-	defer func() {
-		if db != nil {
-			if err := db.Close(); err != nil {
-				panic(err)
-			}
-		}
-	}()
 	db.LogMode(true)
 	return db
+}
+
+func CloseDB(db *gorm.DB) {
+	if db != nil {
+		if err := db.Close(); err != nil {
+			panic(err)
+		}
+	}
 }

@@ -9,12 +9,11 @@ import (
 
 	"github.com/kousuke1201abe/gqlgen-todos/domain/model"
 	"github.com/kousuke1201abe/gqlgen-todos/graph/generated"
-	"github.com/kousuke1201abe/gqlgen-todos/infrastructure"
 )
 
 func (r *queryResolver) Todos(ctx context.Context) ([]*model.Todo, error) {
 	log.Printf("[queryResolver.Todo]")
-	todos, err := infrastructure.NewTodoRepository(r.DB).All()
+	todos, err := r.Repository.NewTodoRepository().All()
 	var results []*model.Todo
 	if err != nil {
 		return nil, err
@@ -31,7 +30,7 @@ func (r *queryResolver) Todos(ctx context.Context) ([]*model.Todo, error) {
 
 func (r *queryResolver) Todo(ctx context.Context, id string) (*model.Todo, error) {
 	log.Printf("[queryResolver.User] id: %s", id)
-	todo, err := infrastructure.NewTodoRepository(r.DB).Find(id)
+	todo, err := r.Repository.NewTodoRepository().Find(id)
 	if err != nil {
 		return nil, err
 	}
@@ -44,7 +43,7 @@ func (r *queryResolver) Todo(ctx context.Context, id string) (*model.Todo, error
 
 func (r *queryResolver) Users(ctx context.Context) ([]*model.User, error) {
 	log.Printf("[queryResolver.Users]")
-	users, err := infrastructure.NewUserRepository(r.DB).All()
+	users, err := r.Repository.NewUserRepository().All()
 	var results []*model.User
 	if err != nil {
 		return nil, err
@@ -60,7 +59,7 @@ func (r *queryResolver) Users(ctx context.Context) ([]*model.User, error) {
 
 func (r *queryResolver) User(ctx context.Context, id string) (*model.User, error) {
 	log.Printf("[queryResolver.User] id: %s", id)
-	user, err := infrastructure.NewUserRepository(r.DB).Find(id)
+	user, err := r.Repository.NewUserRepository().Find(id)
 	if err != nil {
 		return nil, err
 	}

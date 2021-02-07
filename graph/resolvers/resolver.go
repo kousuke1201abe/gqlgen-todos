@@ -2,12 +2,12 @@ package resolvers
 
 //go:generate go run github.com/99designs/gqlgen
 
-import "github.com/jinzhu/gorm"
+import "github.com/kousuke1201abe/gqlgen-todos/registry"
 
 // This file will not be regenerated automatically.
 //
 // It serves as dependency injection for your app, add any dependencies you require here.
 
 type Resolver struct {
-	DB *gorm.DB
+	Repository registry.Repository
 }

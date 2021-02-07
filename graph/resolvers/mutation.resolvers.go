@@ -10,12 +10,11 @@ import (
 	"github.com/google/uuid"
 	"github.com/kousuke1201abe/gqlgen-todos/domain/model"
 	"github.com/kousuke1201abe/gqlgen-todos/graph/generated"
-	"github.com/kousuke1201abe/gqlgen-todos/infrastructure"
 )
 
 func (r *mutationResolver) UpdateTodo(ctx context.Context, input model.UpdateTodo) (*model.Todo, error) {
 	log.Printf("[mutationResolver.UpdateTodo] input: %#v", input)
-	todoRepository := infrastructure.NewTodoRepository(r.DB)
+	todoRepository := r.Repository.NewTodoRepository()
 	todo, err := todoRepository.Find(input.TodoID)
 	if err != nil {
 		return nil, err
@@ -39,7 +38,7 @@ func (r *mutationResolver) UpdateTodo(ctx context.Context, input model.UpdateTod
 func (r *mutationResolver) CreateTodo(ctx context.Context, input model.NewTodo) (*model.Todo, error) {
 	log.Printf("[mutationResolver.CreateTodo] input: %#v", input)
 	id, _ := uuid.NewRandom()
-	todo, err := infrastructure.NewTodoRepository(r.DB).Create(&model.Todo{
+	todo, err := r.Repository.NewTodoRepository().Create(&model.Todo{
 		ID:     id.String(),
 		Text:   input.Text,
 		Done:   false,
@@ -57,7 +56,7 @@ func (r *mutationResolver) CreateTodo(ctx context.Context, input model.NewTodo) 
 
 func (r *mutationResolver) DeleteTodo(ctx context.Context, input model.DeleteTodo) (*model.Todo, error) {
 	log.Printf("[mutationResolver.DeleteTodo] input: %#v", input)
-	todoRepository := infrastructure.NewTodoRepository(r.DB)
+	todoRepository := r.Repository.NewTodoRepository()
 	todo, err := todoRepository.Find(input.TodoID)
 	if err != nil {
 		return nil, err
@@ -76,7 +75,7 @@ func (r *mutationResolver) DeleteTodo(ctx context.Context, input model.DeleteTod
 func (r *mutationResolver) CreateUser(ctx context.Context, input model.NewUser) (*model.User, error) {
 	log.Printf("[mutationResolver.CreateUser] input: %#v", input)
 	id, _ := uuid.NewRandom()
-	user, err := infrastructure.NewUserRepository(r.DB).Create(&model.User{
+	user, err := r.Repository.NewUserRepository().Create(&model.User{
 		ID:   id.String(),
 		Name: input.Name,
 	})
