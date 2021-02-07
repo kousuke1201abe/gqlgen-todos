@@ -8,14 +8,14 @@ import (
 	"log"
 
 	"github.com/google/uuid"
-	"github.com/kousuke1201abe/gqlgen-todos/database"
 	"github.com/kousuke1201abe/gqlgen-todos/domain/model"
+	"github.com/kousuke1201abe/gqlgen-todos/domain/repository"
 	"github.com/kousuke1201abe/gqlgen-todos/graph/generated"
 )
 
 func (r *mutationResolver) UpdateTodo(ctx context.Context, input model.UpdateTodo) (*model.Todo, error) {
 	log.Printf("[mutationResolver.UpdateTodo] input: %#v", input)
-	todoRepository := database.NewTodoRepository(r.DB)
+	todoRepository := repository.NewTodoRepository(r.DB)
 	todo, err := todoRepository.Find(input.TodoID)
 	if err != nil {
 		return nil, err
@@ -39,7 +39,7 @@ func (r *mutationResolver) UpdateTodo(ctx context.Context, input model.UpdateTod
 func (r *mutationResolver) CreateTodo(ctx context.Context, input model.NewTodo) (*model.Todo, error) {
 	log.Printf("[mutationResolver.CreateTodo] input: %#v", input)
 	id, _ := uuid.NewRandom()
-	todo, err := database.NewTodoRepository(r.DB).Create(&model.Todo{
+	todo, err := repository.NewTodoRepository(r.DB).Create(&model.Todo{
 		ID:     id.String(),
 		Text:   input.Text,
 		Done:   false,
@@ -57,7 +57,7 @@ func (r *mutationResolver) CreateTodo(ctx context.Context, input model.NewTodo) 
 
 func (r *mutationResolver) DeleteTodo(ctx context.Context, input model.DeleteTodo) (*model.Todo, error) {
 	log.Printf("[mutationResolver.DeleteTodo] input: %#v", input)
-	todoRepository := database.NewTodoRepository(r.DB)
+	todoRepository := repository.NewTodoRepository(r.DB)
 	todo, err := todoRepository.Find(input.TodoID)
 	if err != nil {
 		return nil, err
@@ -76,7 +76,7 @@ func (r *mutationResolver) DeleteTodo(ctx context.Context, input model.DeleteTod
 func (r *mutationResolver) CreateUser(ctx context.Context, input model.NewUser) (*model.User, error) {
 	log.Printf("[mutationResolver.CreateUser] input: %#v", input)
 	id, _ := uuid.NewRandom()
-	user, err := database.NewUserRepository(r.DB).Create(&model.User{
+	user, err := repository.NewUserRepository(r.DB).Create(&model.User{
 		ID:   id.String(),
 		Name: input.Name,
 	})
@@ -91,7 +91,7 @@ func (r *mutationResolver) CreateUser(ctx context.Context, input model.NewUser) 
 
 func (r *queryResolver) Todos(ctx context.Context) ([]*model.Todo, error) {
 	log.Printf("[queryResolver.Todo]")
-	todos, err := database.NewTodoRepository(r.DB).All()
+	todos, err := repository.NewTodoRepository(r.DB).All()
 	var results []*model.Todo
 	if err != nil {
 		return nil, err
@@ -108,7 +108,7 @@ func (r *queryResolver) Todos(ctx context.Context) ([]*model.Todo, error) {
 
 func (r *queryResolver) Todo(ctx context.Context, id string) (*model.Todo, error) {
 	log.Printf("[queryResolver.User] id: %s", id)
-	todo, err := database.NewTodoRepository(r.DB).Find(id)
+	todo, err := repository.NewTodoRepository(r.DB).Find(id)
 	if err != nil {
 		return nil, err
 	}
@@ -121,7 +121,7 @@ func (r *queryResolver) Todo(ctx context.Context, id string) (*model.Todo, error
 
 func (r *queryResolver) Users(ctx context.Context) ([]*model.User, error) {
 	log.Printf("[queryResolver.Users]")
-	users, err := database.NewUserRepository(r.DB).All()
+	users, err := repository.NewUserRepository(r.DB).All()
 	var results []*model.User
 	if err != nil {
 		return nil, err
@@ -137,7 +137,7 @@ func (r *queryResolver) Users(ctx context.Context) ([]*model.User, error) {
 
 func (r *queryResolver) User(ctx context.Context, id string) (*model.User, error) {
 	log.Printf("[queryResolver.User] id: %s", id)
-	user, err := database.NewUserRepository(r.DB).Find(id)
+	user, err := repository.NewUserRepository(r.DB).Find(id)
 	if err != nil {
 		return nil, err
 	}
@@ -149,7 +149,7 @@ func (r *queryResolver) User(ctx context.Context, id string) (*model.User, error
 
 func (r *todoResolver) User(ctx context.Context, obj *model.Todo) (*model.User, error) {
 	log.Printf("[todoResolver.User]")
-	user, err := database.NewUserRepository(r.DB).FindByTodoID(obj.ID)
+	user, err := repository.NewUserRepository(r.DB).FindByTodoID(obj.ID)
 	if err != nil {
 		return nil, err
 	}
@@ -162,7 +162,7 @@ func (r *todoResolver) User(ctx context.Context, obj *model.Todo) (*model.User, 
 
 func (r *userResolver) Todos(ctx context.Context, obj *model.User) ([]*model.Todo, error) {
 	log.Println("[userResolver.Todos]")
-	todos, err := database.NewTodoRepository(r.DB).FindByUserID(obj.ID)
+	todos, err := repository.NewTodoRepository(r.DB).FindByUserID(obj.ID)
 	if err != nil {
 		return nil, err
 	}
