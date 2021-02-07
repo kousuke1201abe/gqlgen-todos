@@ -5,68 +5,25 @@ package resolvers
 
 import (
 	"context"
-	"log"
 
 	"github.com/kousuke1201abe/gqlgen-todos/domain/model"
 	"github.com/kousuke1201abe/gqlgen-todos/graph/generated"
 )
 
 func (r *queryResolver) Todos(ctx context.Context) ([]*model.Todo, error) {
-	log.Printf("[queryResolver.Todo]")
-	todos, err := r.Repository.NewTodoRepository().All()
-	var results []*model.Todo
-	if err != nil {
-		return nil, err
-	}
-	for _, todo := range todos {
-		results = append(results, &model.Todo{
-			ID:   todo.ID,
-			Text: todo.Text,
-			Done: todo.Done,
-		})
-	}
-	return results, nil
+	return r.Repository.NewTodoUsecase().All()
 }
 
 func (r *queryResolver) Todo(ctx context.Context, id string) (*model.Todo, error) {
-	log.Printf("[queryResolver.User] id: %s", id)
-	todo, err := r.Repository.NewTodoRepository().Find(id)
-	if err != nil {
-		return nil, err
-	}
-	return &model.Todo{
-		ID:   todo.ID,
-		Text: todo.Text,
-		Done: todo.Done,
-	}, nil
+	return r.Repository.NewTodoUsecase().Find(id)
 }
 
 func (r *queryResolver) Users(ctx context.Context) ([]*model.User, error) {
-	log.Printf("[queryResolver.Users]")
-	users, err := r.Repository.NewUserRepository().All()
-	var results []*model.User
-	if err != nil {
-		return nil, err
-	}
-	for _, user := range users {
-		results = append(results, &model.User{
-			ID:   user.ID,
-			Name: user.Name,
-		})
-	}
-	return results, nil
+	return r.Repository.NewUserUsecase().All()
 }
 
 func (r *queryResolver) User(ctx context.Context, id string) (*model.User, error) {
-	log.Printf("[queryResolver.User] id: %s", id)
-	user, err := r.Repository.NewUserRepository().Find(id)
-	if err != nil {
-		return nil, err
-	}
-	return &model.User{
-		ID:   user.ID,
-		Name: user.Name,
-	}, nil
+	return r.Repository.NewUserUsecase().Find(id)
 }
 
 // Query returns generated.QueryResolver implementation.

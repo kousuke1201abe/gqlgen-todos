@@ -5,11 +5,14 @@ import (
 	"github.com/kousuke1201abe/gqlgen-todos/config/database"
 	"github.com/kousuke1201abe/gqlgen-todos/domain/repository"
 	"github.com/kousuke1201abe/gqlgen-todos/infrastructure"
+	"github.com/kousuke1201abe/gqlgen-todos/usecase"
 )
 
 type Repository interface {
-	NewUserRepository() repository.UserRepository
+	NewTodoUsecase() usecase.TodoUsecase
 	NewTodoRepository() repository.TodoRepository
+	NewUserUsecase() usecase.UserUsecase
+	NewUserRepository() repository.UserRepository
 	CloseDB()
 }
 
@@ -19,7 +22,9 @@ func NewRepository() Repository {
 
 type RepositoryImpl struct {
 	DB             *gorm.DB
+	TodoUsecase    usecase.TodoUsecase
 	TodoRepository repository.TodoRepository
+	UserUsecase    usecase.UserUsecase
 	UserRepository repository.UserRepository
 }
 
@@ -28,11 +33,25 @@ func (r *RepositoryImpl) CloseDB() {
 	return
 }
 
+func (r *RepositoryImpl) NewTodoUsecase() usecase.TodoUsecase {
+	if r.TodoUsecase == nil {
+		r.TodoUsecase = usecase.NewTodoUsecase(r.NewTodoRepository())
+	}
+	return r.TodoUsecase
+}
+
 func (r *RepositoryImpl) NewTodoRepository() repository.TodoRepository {
 	if r.TodoRepository == nil {
 		r.TodoRepository = infrastructure.NewTodoRepository(r.DB)
 	}
 	return r.TodoRepository
+}
+
+func (r *RepositoryImpl) NewUserUsecase() usecase.UserUsecase {
+	if r.UserUsecase == nil {
+		r.UserUsecase = usecase.NewUserUsecase(r.NewUserRepository())
+	}
+	return r.UserUsecase
 }
 
 func (r *RepositoryImpl) NewUserRepository() repository.UserRepository {

@@ -5,87 +5,25 @@ package resolvers
 
 import (
 	"context"
-	"log"
 
-	"github.com/google/uuid"
 	"github.com/kousuke1201abe/gqlgen-todos/domain/model"
 	"github.com/kousuke1201abe/gqlgen-todos/graph/generated"
 )
 
 func (r *mutationResolver) UpdateTodo(ctx context.Context, input model.UpdateTodo) (*model.Todo, error) {
-	log.Printf("[mutationResolver.UpdateTodo] input: %#v", input)
-	todoRepository := r.Repository.NewTodoRepository()
-	todo, err := todoRepository.Find(input.TodoID)
-	if err != nil {
-		return nil, err
-	}
-	todo.Text = input.Text
-	err = todoRepository.Save(todo)
-	if err != nil {
-		return nil, err
-	}
-	todo, err = todoRepository.Find(input.TodoID)
-	if err != nil {
-		return nil, err
-	}
-	return &model.Todo{
-		ID:   todo.ID,
-		Text: todo.Text,
-		Done: todo.Done,
-	}, nil
+	return r.Repository.NewTodoUsecase().Update(input.TodoID, input.Text)
 }
 
 func (r *mutationResolver) CreateTodo(ctx context.Context, input model.NewTodo) (*model.Todo, error) {
-	log.Printf("[mutationResolver.CreateTodo] input: %#v", input)
-	id, _ := uuid.NewRandom()
-	todo, err := r.Repository.NewTodoRepository().Create(&model.Todo{
-		ID:     id.String(),
-		Text:   input.Text,
-		Done:   false,
-		UserID: input.UserID,
-	})
-	if err != nil {
-		return nil, err
-	}
-	return &model.Todo{
-		ID:   todo.ID,
-		Text: todo.Text,
-		Done: todo.Done,
-	}, nil
+	return r.Repository.NewTodoUsecase().Create(input.Text, input.UserID)
 }
 
 func (r *mutationResolver) DeleteTodo(ctx context.Context, input model.DeleteTodo) (*model.Todo, error) {
-	log.Printf("[mutationResolver.DeleteTodo] input: %#v", input)
-	todoRepository := r.Repository.NewTodoRepository()
-	todo, err := todoRepository.Find(input.TodoID)
-	if err != nil {
-		return nil, err
-	}
-	err = todoRepository.Destroy(todo)
-	if err != nil {
-		return nil, err
-	}
-	return &model.Todo{
-		ID:   todo.ID,
-		Text: todo.Text,
-		Done: todo.Done,
-	}, nil
+	return r.Repository.NewTodoUsecase().Delete(input.TodoID)
 }
 
 func (r *mutationResolver) CreateUser(ctx context.Context, input model.NewUser) (*model.User, error) {
-	log.Printf("[mutationResolver.CreateUser] input: %#v", input)
-	id, _ := uuid.NewRandom()
-	user, err := r.Repository.NewUserRepository().Create(&model.User{
-		ID:   id.String(),
-		Name: input.Name,
-	})
-	if err != nil {
-		return nil, err
-	}
-	return &model.User{
-		ID:   user.ID,
-		Name: user.Name,
-	}, nil
+	return r.Repository.NewUserUsecase().Create(input.Name)
 }
 
 // Mutation returns generated.MutationResolver implementation.
