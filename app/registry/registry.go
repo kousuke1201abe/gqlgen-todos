@@ -2,17 +2,20 @@ package registry
 
 import (
 	"github.com/jinzhu/gorm"
-	"github.com/kousuke1201abe/gqlgen-todos/app/application/usecase"
-	"github.com/kousuke1201abe/gqlgen-todos/app/domain/repository"
-	"github.com/kousuke1201abe/gqlgen-todos/app/infrastructure"
+	todoApplication "github.com/kousuke1201abe/gqlgen-todos/app/application/todos"
+	userApplication "github.com/kousuke1201abe/gqlgen-todos/app/application/users"
+	todoModel "github.com/kousuke1201abe/gqlgen-todos/app/domain/models/todos"
+	userModel "github.com/kousuke1201abe/gqlgen-todos/app/domain/models/users"
+	todoInfrastructure "github.com/kousuke1201abe/gqlgen-todos/app/infrastructure/todos"
+	userInfrastructure "github.com/kousuke1201abe/gqlgen-todos/app/infrastructure/users"
 	"github.com/kousuke1201abe/gqlgen-todos/config/database"
 )
 
 type Repository interface {
-	NewTodoUsecase() usecase.TodoUsecase
-	NewTodoRepository() repository.TodoRepository
-	NewUserUsecase() usecase.UserUsecase
-	NewUserRepository() repository.UserRepository
+	NewTodoUsecase() todoApplication.TodoUsecase
+	NewTodoRepository() todoModel.TodoRepository
+	NewUserUsecase() userApplication.UserUsecase
+	NewUserRepository() userModel.UserRepository
 	CloseDB()
 }
 
@@ -22,10 +25,10 @@ func NewRepository() Repository {
 
 type RepositoryImpl struct {
 	DB             *gorm.DB
-	TodoUsecase    usecase.TodoUsecase
-	TodoRepository repository.TodoRepository
-	UserUsecase    usecase.UserUsecase
-	UserRepository repository.UserRepository
+	TodoUsecase    todoApplication.TodoUsecase
+	TodoRepository todoModel.TodoRepository
+	UserUsecase    userApplication.UserUsecase
+	UserRepository userModel.UserRepository
 }
 
 func (r *RepositoryImpl) CloseDB() {
@@ -33,30 +36,30 @@ func (r *RepositoryImpl) CloseDB() {
 	return
 }
 
-func (r *RepositoryImpl) NewTodoUsecase() usecase.TodoUsecase {
+func (r *RepositoryImpl) NewTodoUsecase() todoApplication.TodoUsecase {
 	if r.TodoUsecase == nil {
-		r.TodoUsecase = usecase.NewTodoUsecase(r.NewTodoRepository())
+		r.TodoUsecase = todoApplication.NewTodoUsecase(r.NewTodoRepository())
 	}
 	return r.TodoUsecase
 }
 
-func (r *RepositoryImpl) NewTodoRepository() repository.TodoRepository {
+func (r *RepositoryImpl) NewTodoRepository() todoModel.TodoRepository {
 	if r.TodoRepository == nil {
-		r.TodoRepository = infrastructure.NewTodoRepository(r.DB)
+		r.TodoRepository = todoInfrastructure.NewTodoRepository(r.DB)
 	}
 	return r.TodoRepository
 }
 
-func (r *RepositoryImpl) NewUserUsecase() usecase.UserUsecase {
+func (r *RepositoryImpl) NewUserUsecase() userApplication.UserUsecase {
 	if r.UserUsecase == nil {
-		r.UserUsecase = usecase.NewUserUsecase(r.NewUserRepository())
+		r.UserUsecase = userApplication.NewUserUsecase(r.NewUserRepository())
 	}
 	return r.UserUsecase
 }
 
-func (r *RepositoryImpl) NewUserRepository() repository.UserRepository {
+func (r *RepositoryImpl) NewUserRepository() userModel.UserRepository {
 	if r.UserRepository == nil {
-		r.UserRepository = infrastructure.NewUserRepository(r.DB)
+		r.UserRepository = userInfrastructure.NewUserRepository(r.DB)
 	}
 	return r.UserRepository
 }

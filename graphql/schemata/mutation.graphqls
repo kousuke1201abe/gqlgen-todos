@@ -1,7 +1,0 @@
-
-type Mutation {
-  updateTodo(input: UpdateTodo!): Todo!
-  createTodo(input: NewTodo!): Todo!
-  deleteTodo(input: DeleteTodo!): Todo!
-  createUser(input: NewUser!): User!
-}
