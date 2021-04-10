@@ -2,13 +2,13 @@ package registry
 
 import (
 	"github.com/jinzhu/gorm"
-	todoApplication "github.com/kousuke1201abe/gqlgen-todos/app/application/todos"
-	userApplication "github.com/kousuke1201abe/gqlgen-todos/app/application/users"
-	todoModel "github.com/kousuke1201abe/gqlgen-todos/app/domain/models/todos"
-	userModel "github.com/kousuke1201abe/gqlgen-todos/app/domain/models/users"
-	todoInfrastructure "github.com/kousuke1201abe/gqlgen-todos/app/infrastructure/todos"
-	userInfrastructure "github.com/kousuke1201abe/gqlgen-todos/app/infrastructure/users"
-	"github.com/kousuke1201abe/gqlgen-todos/config/database"
+	todoApplication "github.com/kousuke1201abe/gqlgen-todos/internal/application/todos"
+	userApplication "github.com/kousuke1201abe/gqlgen-todos/internal/application/users"
+	todoModel "github.com/kousuke1201abe/gqlgen-todos/internal/domain/models/todos"
+	userModel "github.com/kousuke1201abe/gqlgen-todos/internal/domain/models/users"
+	"github.com/kousuke1201abe/gqlgen-todos/internal/infrastructure/database"
+	todoInfrastructure "github.com/kousuke1201abe/gqlgen-todos/internal/infrastructure/todos"
+	userInfrastructure "github.com/kousuke1201abe/gqlgen-todos/internal/infrastructure/users"
 )
 
 type Repository interface {

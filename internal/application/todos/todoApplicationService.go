@@ -2,7 +2,7 @@ package todos
 
 import (
 	"github.com/google/uuid"
-	model "github.com/kousuke1201abe/gqlgen-todos/app/domain/models/todos"
+	model "github.com/kousuke1201abe/gqlgen-todos/internal/domain/models/todos"
 )
 
 type TodoUsecase interface {

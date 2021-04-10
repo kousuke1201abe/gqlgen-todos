@@ -2,7 +2,7 @@ package todos
 
 import (
 	"github.com/jinzhu/gorm"
-	model "github.com/kousuke1201abe/gqlgen-todos/app/domain/models/todos"
+	model "github.com/kousuke1201abe/gqlgen-todos/internal/domain/models/todos"
 )
 
 func (t *TodoRepository) TableName() string {

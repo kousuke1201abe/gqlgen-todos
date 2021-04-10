@@ -2,7 +2,7 @@ package resolvers
 
 //go:generate go run github.com/99designs/gqlgen
 
-import "github.com/kousuke1201abe/gqlgen-todos/app/registry"
+import "github.com/kousuke1201abe/gqlgen-todos/internal/registry"
 
 // This file will not be regenerated automatically.
 //

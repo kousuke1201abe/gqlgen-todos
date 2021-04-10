@@ -12,9 +12,9 @@ import (
 
 	"github.com/99designs/gqlgen/graphql"
 	"github.com/99designs/gqlgen/graphql/introspection"
-	model "github.com/kousuke1201abe/gqlgen-todos/app/domain/models"
-	"github.com/kousuke1201abe/gqlgen-todos/app/domain/models/todos"
-	"github.com/kousuke1201abe/gqlgen-todos/app/domain/models/users"
+	model "github.com/kousuke1201abe/gqlgen-todos/internal/domain/models"
+	"github.com/kousuke1201abe/gqlgen-todos/internal/domain/models/todos"
+	"github.com/kousuke1201abe/gqlgen-todos/internal/domain/models/users"
 	gqlparser "github.com/vektah/gqlparser/v2"
 	"github.com/vektah/gqlparser/v2/ast"
 )

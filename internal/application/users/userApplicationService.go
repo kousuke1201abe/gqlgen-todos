@@ -2,7 +2,7 @@ package usecase
 
 import (
 	"github.com/google/uuid"
-	model "github.com/kousuke1201abe/gqlgen-todos/app/domain/models/users"
+	model "github.com/kousuke1201abe/gqlgen-todos/internal/domain/models/users"
 )
 
 type UserUsecase interface {

@@ -6,10 +6,10 @@ package resolvers
 import (
 	"context"
 
-	model "github.com/kousuke1201abe/gqlgen-todos/app/domain/models"
-	"github.com/kousuke1201abe/gqlgen-todos/app/domain/models/todos"
-	"github.com/kousuke1201abe/gqlgen-todos/app/domain/models/users"
-	generated1 "github.com/kousuke1201abe/gqlgen-todos/app/infrastructure/graphql/generated"
+	model "github.com/kousuke1201abe/gqlgen-todos/internal/domain/models"
+	"github.com/kousuke1201abe/gqlgen-todos/internal/domain/models/todos"
+	"github.com/kousuke1201abe/gqlgen-todos/internal/domain/models/users"
+	generated1 "github.com/kousuke1201abe/gqlgen-todos/internal/infrastructure/graphql/generated"
 )
 
 func (r *mutationResolver) UpdateTodo(ctx context.Context, input model.UpdateTodo) (*todos.Todo, error) {

@@ -2,7 +2,7 @@ package users
 
 import (
 	"github.com/jinzhu/gorm"
-	model "github.com/kousuke1201abe/gqlgen-todos/app/domain/models/users"
+	model "github.com/kousuke1201abe/gqlgen-todos/internal/domain/models/users"
 )
 
 func (u *UserRepository) TableName() string {

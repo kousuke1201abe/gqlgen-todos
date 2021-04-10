@@ -6,9 +6,9 @@ package resolvers
 import (
 	"context"
 
-	"github.com/kousuke1201abe/gqlgen-todos/app/domain/models/todos"
-	"github.com/kousuke1201abe/gqlgen-todos/app/domain/models/users"
-	generated1 "github.com/kousuke1201abe/gqlgen-todos/app/infrastructure/graphql/generated"
+	"github.com/kousuke1201abe/gqlgen-todos/internal/domain/models/todos"
+	"github.com/kousuke1201abe/gqlgen-todos/internal/domain/models/users"
+	generated1 "github.com/kousuke1201abe/gqlgen-todos/internal/infrastructure/graphql/generated"
 )
 
 func (r *queryResolver) Todos(ctx context.Context) ([]*todos.Todo, error) {
