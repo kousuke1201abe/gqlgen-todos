@@ -14,7 +14,7 @@ import (
 
 func (r *todoResolver) User(ctx context.Context, obj *todoModel.Todo) (*userModel.User, error) {
 	log.Printf("[todoResolver.User]")
-	userRepo := r.Repository.NewUserRepository()
+	userRepo := r.Registry.NewUserRepository()
 	user, err := userRepo.FindByTodoID(obj.ID)
 	if err != nil {
 		return nil, err

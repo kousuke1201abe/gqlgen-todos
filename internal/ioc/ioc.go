@@ -1,4 +1,4 @@
-package registry
+package ioc
 
 import (
 	"github.com/jinzhu/gorm"
@@ -11,7 +11,7 @@ import (
 	userInfrastructure "github.com/kousuke1201abe/gqlgen-todos/internal/infrastructure/users"
 )
 
-type Repository interface {
+type Registry interface {
 	NewTodoUsecase() todoApplication.TodoUsecase
 	NewTodoRepository() todoModel.TodoRepository
 	NewUserUsecase() userApplication.UserUsecase
@@ -19,11 +19,11 @@ type Repository interface {
 	CloseDB()
 }
 
-func NewRepository() Repository {
-	return &RepositoryImpl{DB: database.NewDB()}
+func NewRegistry() Registry {
+	return &RegistryImpl{DB: database.NewDB()}
 }
 
-type RepositoryImpl struct {
+type RegistryImpl struct {
 	DB             *gorm.DB
 	TodoUsecase    todoApplication.TodoUsecase
 	TodoRepository todoModel.TodoRepository
@@ -31,32 +31,32 @@ type RepositoryImpl struct {
 	UserRepository userModel.UserRepository
 }
 
-func (r *RepositoryImpl) CloseDB() {
+func (r *RegistryImpl) CloseDB() {
 	database.CloseDB(r.DB)
 }
 
-func (r *RepositoryImpl) NewTodoUsecase() todoApplication.TodoUsecase {
+func (r *RegistryImpl) NewTodoUsecase() todoApplication.TodoUsecase {
 	if r.TodoUsecase == nil {
 		r.TodoUsecase = todoApplication.NewTodoUsecase(r.NewTodoRepository())
 	}
 	return r.TodoUsecase
 }
 
-func (r *RepositoryImpl) NewTodoRepository() todoModel.TodoRepository {
+func (r *RegistryImpl) NewTodoRepository() todoModel.TodoRepository {
 	if r.TodoRepository == nil {
 		r.TodoRepository = todoInfrastructure.NewTodoRepository(r.DB)
 	}
 	return r.TodoRepository
 }
 
-func (r *RepositoryImpl) NewUserUsecase() userApplication.UserUsecase {
+func (r *RegistryImpl) NewUserUsecase() userApplication.UserUsecase {
 	if r.UserUsecase == nil {
 		r.UserUsecase = userApplication.NewUserUsecase(r.NewUserRepository())
 	}
 	return r.UserUsecase
 }
 
-func (r *RepositoryImpl) NewUserRepository() userModel.UserRepository {
+func (r *RegistryImpl) NewUserRepository() userModel.UserRepository {
 	if r.UserRepository == nil {
 		r.UserRepository = userInfrastructure.NewUserRepository(r.DB)
 	}

@@ -7,9 +7,9 @@ import (
 
 	"github.com/99designs/gqlgen/graphql/handler"
 	"github.com/99designs/gqlgen/graphql/playground"
+	"github.com/kousuke1201abe/gqlgen-todos/internal/ioc"
 	"github.com/kousuke1201abe/gqlgen-todos/internal/presentation/graphql/generated"
 	"github.com/kousuke1201abe/gqlgen-todos/internal/presentation/graphql/resolvers"
-	"github.com/kousuke1201abe/gqlgen-todos/internal/registry"
 )
 
 func main() {
@@ -19,10 +19,10 @@ func main() {
 	if port == "" {
 		port = defaultPort
 	}
-	repositry := registry.NewRepository()
-	defer repositry.CloseDB()
+	registry := ioc.NewRegistry()
+	defer registry.CloseDB()
 
-	srv := handler.NewDefaultServer(generated.NewExecutableSchema(generated.Config{Resolvers: &resolvers.Resolver{Repository: repositry}}))
+	srv := handler.NewDefaultServer(generated.NewExecutableSchema(generated.Config{Resolvers: &resolvers.Resolver{Registry: registry}}))
 
 	http.Handle("/", playground.Handler("GraphQL playground", "/query"))
 	http.Handle("/query", srv)

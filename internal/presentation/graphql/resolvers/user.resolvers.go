@@ -14,7 +14,7 @@ import (
 
 func (r *userResolver) Todos(ctx context.Context, obj *userModel.User) ([]*todoModel.Todo, error) {
 	log.Println("[userResolver.Todos]")
-	todoRepo := r.Repository.NewTodoRepository()
+	todoRepo := r.Registry.NewTodoRepository()
 	todos, err := todoRepo.FindByUserID(obj.ID)
 	if err != nil {
 		return nil, err
