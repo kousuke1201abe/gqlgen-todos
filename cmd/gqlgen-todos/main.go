@@ -7,8 +7,8 @@ import (
 
 	"github.com/99designs/gqlgen/graphql/handler"
 	"github.com/99designs/gqlgen/graphql/playground"
-	"github.com/kousuke1201abe/gqlgen-todos/internal/infrastructure/graphql/generated"
-	"github.com/kousuke1201abe/gqlgen-todos/internal/presentation/resolvers"
+	"github.com/kousuke1201abe/gqlgen-todos/internal/presentation/graphql/generated"
+	"github.com/kousuke1201abe/gqlgen-todos/internal/presentation/graphql/resolvers"
 	"github.com/kousuke1201abe/gqlgen-todos/internal/registry"
 )
 

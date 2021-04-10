@@ -9,7 +9,7 @@ import (
 
 	todoModel "github.com/kousuke1201abe/gqlgen-todos/internal/domain/models/todos"
 	userModel "github.com/kousuke1201abe/gqlgen-todos/internal/domain/models/users"
-	generated1 "github.com/kousuke1201abe/gqlgen-todos/internal/infrastructure/graphql/generated"
+	generated1 "github.com/kousuke1201abe/gqlgen-todos/internal/presentation/graphql/generated"
 )
 
 func (r *userResolver) Todos(ctx context.Context, obj *userModel.User) ([]*todoModel.Todo, error) {
