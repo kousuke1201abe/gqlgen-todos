@@ -11,6 +11,7 @@ type TodoUsecase interface {
 	Delete(id string) (*model.Todo, error)
 	All() ([]*model.Todo, error)
 	Find(id string) (*model.Todo, error)
+	FindByUserID(id string) ([]*model.Todo, error)
 }
 
 type TodoUsecaseImpl struct {
@@ -104,4 +105,20 @@ func (tu *TodoUsecaseImpl) Find(id string) (*model.Todo, error) {
 		Text: todo.Text,
 		Done: todo.Done,
 	}, nil
+}
+
+func (tu *TodoUsecaseImpl) FindByUserID(id string) ([]*model.Todo, error) {
+	todos, err := tu.TodoRepository.FindByUserID(id)
+	var results []*model.Todo
+	if err != nil {
+		return nil, err
+	}
+	for _, todo := range todos {
+		results = append(results, &model.Todo{
+			ID:   todo.ID,
+			Text: todo.Text,
+			Done: todo.Done,
+		})
+	}
+	return results, nil
 }

@@ -9,56 +9,59 @@ import (
 	"github.com/kousuke1201abe/gqlgen-todos/internal/infrastructure/database"
 	todoInfrastructure "github.com/kousuke1201abe/gqlgen-todos/internal/infrastructure/todos"
 	userInfrastructure "github.com/kousuke1201abe/gqlgen-todos/internal/infrastructure/users"
+	"github.com/kousuke1201abe/gqlgen-todos/internal/presentation/graphql/resolvers"
+	dig "go.uber.org/dig"
 )
 
-type Registry interface {
-	NewTodoUsecase() todoApplication.TodoUsecase
-	NewTodoRepository() todoModel.TodoRepository
-	NewUserUsecase() userApplication.UserUsecase
-	NewUserRepository() userModel.UserRepository
-	CloseDB()
+func Dig() *dig.Container {
+	c := dig.New()
+
+	registerDependencies(
+		c,
+		newDB,
+		newResolver,
+		newTodoUsecase,
+		newUserUsecase,
+		newTodoRepository,
+		newUserRepository,
+	)
+
+	return c
 }
 
-func NewRegistry() Registry {
-	return &RegistryImpl{DB: database.NewDB()}
-}
-
-type RegistryImpl struct {
-	DB             *gorm.DB
-	TodoUsecase    todoApplication.TodoUsecase
-	TodoRepository todoModel.TodoRepository
-	UserUsecase    userApplication.UserUsecase
-	UserRepository userModel.UserRepository
-}
-
-func (r *RegistryImpl) CloseDB() {
-	database.CloseDB(r.DB)
-}
-
-func (r *RegistryImpl) NewTodoUsecase() todoApplication.TodoUsecase {
-	if r.TodoUsecase == nil {
-		r.TodoUsecase = todoApplication.NewTodoUsecase(r.NewTodoRepository())
+func registerDependencies(c *dig.Container, constructors ...interface{}) {
+	for i := 0; i < len(constructors); i++ {
+		err := c.Provide(constructors[i])
+		if err != nil {
+			panic(err)
+		}
 	}
-	return r.TodoUsecase
 }
 
-func (r *RegistryImpl) NewTodoRepository() todoModel.TodoRepository {
-	if r.TodoRepository == nil {
-		r.TodoRepository = todoInfrastructure.NewTodoRepository(r.DB)
-	}
-	return r.TodoRepository
+func newDB() *gorm.DB {
+	return database.NewDB()
 }
 
-func (r *RegistryImpl) NewUserUsecase() userApplication.UserUsecase {
-	if r.UserUsecase == nil {
-		r.UserUsecase = userApplication.NewUserUsecase(r.NewUserRepository())
+func newResolver(todoUsecase todoApplication.TodoUsecase, userUsecase userApplication.UserUsecase, db *gorm.DB) *resolvers.Resolver {
+	return &resolvers.Resolver{
+		DB:          db,
+		TodoUsecase: todoUsecase,
+		UserUsecase: userUsecase,
 	}
-	return r.UserUsecase
 }
 
-func (r *RegistryImpl) NewUserRepository() userModel.UserRepository {
-	if r.UserRepository == nil {
-		r.UserRepository = userInfrastructure.NewUserRepository(r.DB)
-	}
-	return r.UserRepository
+func newTodoUsecase(repo todoModel.TodoRepository) todoApplication.TodoUsecase {
+	return todoApplication.NewTodoUsecase(repo)
+}
+
+func newTodoRepository(db *gorm.DB) todoModel.TodoRepository {
+	return todoInfrastructure.NewTodoRepository(db)
+}
+
+func newUserUsecase(repo userModel.UserRepository) userApplication.UserUsecase {
+	return userApplication.NewUserUsecase(repo)
+}
+
+func newUserRepository(db *gorm.DB) userModel.UserRepository {
+	return userInfrastructure.NewUserRepository(db)
 }

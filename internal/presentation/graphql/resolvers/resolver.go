@@ -1,6 +1,10 @@
 package resolvers
 
-import "github.com/kousuke1201abe/gqlgen-todos/internal/ioc"
+import (
+	"github.com/jinzhu/gorm"
+	"github.com/kousuke1201abe/gqlgen-todos/internal/application/todos"
+	"github.com/kousuke1201abe/gqlgen-todos/internal/application/users"
+)
 
 //go:generate go run github.com/99designs/gqlgen
 
@@ -9,5 +13,7 @@ import "github.com/kousuke1201abe/gqlgen-todos/internal/ioc"
 // It serves as dependency injection for your app, add any dependencies you require here.
 
 type Resolver struct {
-	Registry ioc.Registry
+	DB          *gorm.DB
+	TodoUsecase todos.TodoUsecase
+	UserUsecase users.UserUsecase
 }

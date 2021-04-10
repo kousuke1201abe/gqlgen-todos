@@ -13,19 +13,19 @@ import (
 )
 
 func (r *mutationResolver) UpdateTodo(ctx context.Context, input model.UpdateTodo) (*todos.Todo, error) {
-	return r.Registry.NewTodoUsecase().Update(input.TodoID, input.Text)
+	return r.TodoUsecase.Update(input.TodoID, input.Text)
 }
 
 func (r *mutationResolver) CreateTodo(ctx context.Context, input model.NewTodo) (*todos.Todo, error) {
-	return r.Registry.NewTodoUsecase().Create(input.Text, input.UserID)
+	return r.TodoUsecase.Create(input.Text, input.UserID)
 }
 
 func (r *mutationResolver) DeleteTodo(ctx context.Context, input model.DeleteTodo) (*todos.Todo, error) {
-	return r.Registry.NewTodoUsecase().Delete(input.TodoID)
+	return r.TodoUsecase.Delete(input.TodoID)
 }
 
 func (r *mutationResolver) CreateUser(ctx context.Context, input model.NewUser) (*users.User, error) {
-	return r.Registry.NewUserUsecase().Create(input.Name)
+	return r.UserUsecase.Create(input.Name)
 }
 
 // Mutation returns generated1.MutationResolver implementation.

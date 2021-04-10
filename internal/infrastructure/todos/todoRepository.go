@@ -36,7 +36,7 @@ func (t *TodoRepository) All() ([]*model.Todo, error) {
 
 func (t *TodoRepository) Find(id string) (*model.Todo, error) {
 	var todos []*model.Todo
-	res := t.db.Where("it = ?", id).Find(&todos)
+	res := t.db.Where("id = ?", id).Find(&todos)
 	if err := res.Error; err != nil {
 		return nil, err
 	}
@@ -48,7 +48,7 @@ func (t *TodoRepository) Find(id string) (*model.Todo, error) {
 
 func (t *TodoRepository) FindByUserID(userId string) ([]*model.Todo, error) {
 	var todos []*model.Todo
-	res := t.db.Where("user_it = ?", userId).Find(&todos)
+	res := t.db.Where("user_id = ?", userId).Find(&todos)
 	if err := res.Error; err != nil {
 		return nil, err
 	}

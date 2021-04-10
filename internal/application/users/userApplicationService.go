@@ -1,4 +1,4 @@
-package usecase
+package users
 
 import (
 	"github.com/google/uuid"
@@ -9,6 +9,7 @@ type UserUsecase interface {
 	Create(name string) (*model.User, error)
 	All() ([]*model.User, error)
 	Find(id string) (*model.User, error)
+	FindByTodoID(id string) (*model.User, error)
 }
 
 type UserUsecaseImpl struct {
@@ -51,6 +52,17 @@ func (uu *UserUsecaseImpl) All() ([]*model.User, error) {
 
 func (uu *UserUsecaseImpl) Find(id string) (*model.User, error) {
 	user, err := uu.UserRepository.Find(id)
+	if err != nil {
+		return nil, err
+	}
+	return &model.User{
+		ID:   user.ID,
+		Name: user.Name,
+	}, nil
+}
+
+func (uu *UserUsecaseImpl) FindByTodoID(id string) (*model.User, error) {
+	user, err := uu.UserRepository.FindByTodoID(id)
 	if err != nil {
 		return nil, err
 	}

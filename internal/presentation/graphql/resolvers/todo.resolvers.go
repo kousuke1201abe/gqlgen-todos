@@ -5,7 +5,6 @@ package resolvers
 
 import (
 	"context"
-	"log"
 
 	todoModel "github.com/kousuke1201abe/gqlgen-todos/internal/domain/models/todos"
 	userModel "github.com/kousuke1201abe/gqlgen-todos/internal/domain/models/users"
@@ -13,17 +12,7 @@ import (
 )
 
 func (r *todoResolver) User(ctx context.Context, obj *todoModel.Todo) (*userModel.User, error) {
-	log.Printf("[todoResolver.User]")
-	userRepo := r.Registry.NewUserRepository()
-	user, err := userRepo.FindByTodoID(obj.ID)
-	if err != nil {
-		return nil, err
-	}
-	result := &userModel.User{
-		ID:   user.ID,
-		Name: user.Name,
-	}
-	return result, nil
+	return r.UserUsecase.FindByTodoID(obj.ID)
 }
 
 // Todo returns generated1.TodoResolver implementation.
