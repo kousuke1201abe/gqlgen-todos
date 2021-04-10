@@ -56,7 +56,7 @@ func (u *UserRepository) FindByTodoID(todoID string) (*model.User, error) {
 	if err := res.Error; err != nil {
 		return nil, err
 	}
-	if users == nil || len(users) == 0 {
+	if len(users) == 0 {
 		return nil, nil
 	}
 	return users[0], nil

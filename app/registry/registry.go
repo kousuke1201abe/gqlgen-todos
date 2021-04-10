@@ -33,7 +33,6 @@ type RepositoryImpl struct {
 
 func (r *RepositoryImpl) CloseDB() {
 	database.CloseDB(r.DB)
-	return
 }
 
 func (r *RepositoryImpl) NewTodoUsecase() todoApplication.TodoUsecase {
