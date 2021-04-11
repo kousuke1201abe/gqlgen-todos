@@ -12,15 +12,7 @@ import (
 
 func (r *userResolver) Todos(ctx context.Context, obj *dto.User) ([]*dto.Todo, error) {
 	todos, _ := r.TodoApplicationService.FindByUserID(obj.ID)
-	var results []*dto.Todo
-	for _, todo := range todos {
-		results = append(results, &dto.Todo{
-			ID:   todo.ID,
-			Text: todo.Text,
-			Done: todo.Done,
-		})
-	}
-	return results, nil
+	return dto.ConvertTodos(todos)
 }
 
 // User returns generated1.UserResolver implementation.

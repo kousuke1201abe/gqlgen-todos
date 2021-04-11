@@ -12,40 +12,22 @@ import (
 
 func (r *mutationResolver) UpdateTodo(ctx context.Context, input dto1.UpdateTodo) (*dto1.Todo, error) {
 	todo, _ := r.TodoApplicationService.Update(input.TodoID, input.Text)
-	return &dto1.Todo{
-		ID:     todo.ID,
-		Text:   todo.Text,
-		Done:   todo.Done,
-		UserID: todo.UserID,
-	}, nil
+	return dto1.ConvertTodo(todo)
 }
 
 func (r *mutationResolver) CreateTodo(ctx context.Context, input dto1.NewTodo) (*dto1.Todo, error) {
 	todo, _ := r.TodoApplicationService.Create(input.Text, input.UserID)
-	return &dto1.Todo{
-		ID:     todo.ID,
-		Text:   todo.Text,
-		Done:   todo.Done,
-		UserID: todo.UserID,
-	}, nil
+	return dto1.ConvertTodo(todo)
 }
 
 func (r *mutationResolver) DeleteTodo(ctx context.Context, input dto1.DeleteTodo) (*dto1.Todo, error) {
 	todo, _ := r.TodoApplicationService.Delete(input.TodoID)
-	return &dto1.Todo{
-		ID:     todo.ID,
-		Text:   todo.Text,
-		Done:   todo.Done,
-		UserID: todo.UserID,
-	}, nil
+	return dto1.ConvertTodo(todo)
 }
 
 func (r *mutationResolver) CreateUser(ctx context.Context, input dto1.NewUser) (*dto1.User, error) {
 	user, _ := r.UserApplicationService.Create(input.Name)
-	return &dto1.User{
-		ID:   user.ID,
-		Name: user.Name,
-	}, nil
+	return dto1.ConvertUser(user)
 }
 
 // Mutation returns generated1.MutationResolver implementation.
