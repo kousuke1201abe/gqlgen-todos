@@ -12,19 +12,19 @@ import (
 )
 
 func (r *queryResolver) Todos(ctx context.Context) ([]*todos.Todo, error) {
-	return r.TodoUsecase.All()
+	return r.TodoApplicationService.All()
 }
 
 func (r *queryResolver) Todo(ctx context.Context, id string) (*todos.Todo, error) {
-	return r.TodoUsecase.Find(id)
+	return r.TodoApplicationService.Find(id)
 }
 
 func (r *queryResolver) Users(ctx context.Context) ([]*users.User, error) {
-	return r.UserUsecase.All()
+	return r.UserApplicationService.All()
 }
 
 func (r *queryResolver) User(ctx context.Context, id string) (*users.User, error) {
-	return r.UserUsecase.Find(id)
+	return r.UserApplicationService.Find(id)
 }
 
 // Query returns generated1.QueryResolver implementation.

@@ -13,7 +13,7 @@ import (
 // It serves as dependency injection for your app, add any dependencies you require here.
 
 type Resolver struct {
-	DB          *gorm.DB
-	TodoUsecase todos.TodoUsecase
-	UserUsecase users.UserUsecase
+	DB                     *gorm.DB
+	TodoApplicationService todos.TodoApplicationService
+	UserApplicationService users.UserApplicationService
 }

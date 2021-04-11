@@ -20,8 +20,8 @@ func Dig() *dig.Container {
 		c,
 		newDB,
 		newResolver,
-		newTodoUsecase,
-		newUserUsecase,
+		newTodoApplicationService,
+		newUserApplicationService,
 		newTodoRepository,
 		newUserRepository,
 	)
@@ -42,24 +42,24 @@ func newDB() *gorm.DB {
 	return database.NewDB()
 }
 
-func newResolver(todoUsecase todoApplication.TodoUsecase, userUsecase userApplication.UserUsecase, db *gorm.DB) *resolvers.Resolver {
+func newResolver(todoApplicationService todoApplication.TodoApplicationService, userApplicationService userApplication.UserApplicationService, db *gorm.DB) *resolvers.Resolver {
 	return &resolvers.Resolver{
-		DB:          db,
-		TodoUsecase: todoUsecase,
-		UserUsecase: userUsecase,
+		DB:                     db,
+		TodoApplicationService: todoApplicationService,
+		UserApplicationService: userApplicationService,
 	}
 }
 
-func newTodoUsecase(repo todoModel.TodoRepository) todoApplication.TodoUsecase {
-	return todoApplication.NewTodoUsecase(repo)
+func newTodoApplicationService(repo todoModel.TodoRepository) todoApplication.TodoApplicationService {
+	return todoApplication.NewTodoApplicationService(repo)
 }
 
 func newTodoRepository(db *gorm.DB) todoModel.TodoRepository {
 	return todoInfrastructure.NewTodoRepository(db)
 }
 
-func newUserUsecase(repo userModel.UserRepository) userApplication.UserUsecase {
-	return userApplication.NewUserUsecase(repo)
+func newUserApplicationService(repo userModel.UserRepository) userApplication.UserApplicationService {
+	return userApplication.NewUserApplicationService(repo)
 }
 
 func newUserRepository(db *gorm.DB) userModel.UserRepository {

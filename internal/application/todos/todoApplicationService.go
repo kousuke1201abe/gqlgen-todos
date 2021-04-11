@@ -5,7 +5,7 @@ import (
 	model "github.com/kousuke1201abe/gqlgen-todos/internal/domain/models/todos"
 )
 
-type TodoUsecase interface {
+type TodoApplicationService interface {
 	Create(text string, userID string) (*model.Todo, error)
 	Update(id string, text string) (*model.Todo, error)
 	Delete(id string) (*model.Todo, error)
@@ -14,15 +14,15 @@ type TodoUsecase interface {
 	FindByUserID(id string) ([]*model.Todo, error)
 }
 
-type TodoUsecaseImpl struct {
+type TodoApplicationServiceImpl struct {
 	TodoRepository model.TodoRepository
 }
 
-func NewTodoUsecase(TodoRepository model.TodoRepository) TodoUsecase {
-	return &TodoUsecaseImpl{TodoRepository: TodoRepository}
+func NewTodoApplicationService(TodoRepository model.TodoRepository) TodoApplicationService {
+	return &TodoApplicationServiceImpl{TodoRepository: TodoRepository}
 }
 
-func (tu *TodoUsecaseImpl) Create(text string, userID string) (*model.Todo, error) {
+func (tu *TodoApplicationServiceImpl) Create(text string, userID string) (*model.Todo, error) {
 	id, _ := uuid.NewRandom()
 	todo, err := tu.TodoRepository.Create(&model.Todo{
 		ID:     id.String(),
@@ -40,7 +40,7 @@ func (tu *TodoUsecaseImpl) Create(text string, userID string) (*model.Todo, erro
 	}, nil
 }
 
-func (tu *TodoUsecaseImpl) Update(id string, text string) (*model.Todo, error) {
+func (tu *TodoApplicationServiceImpl) Update(id string, text string) (*model.Todo, error) {
 	todoRepository := tu.TodoRepository
 	todo, err := todoRepository.Find(id)
 	if err != nil {
@@ -62,7 +62,7 @@ func (tu *TodoUsecaseImpl) Update(id string, text string) (*model.Todo, error) {
 	}, nil
 }
 
-func (tu *TodoUsecaseImpl) Delete(id string) (*model.Todo, error) {
+func (tu *TodoApplicationServiceImpl) Delete(id string) (*model.Todo, error) {
 	todoRepository := tu.TodoRepository
 	todo, err := todoRepository.Find(id)
 	if err != nil {
@@ -79,7 +79,7 @@ func (tu *TodoUsecaseImpl) Delete(id string) (*model.Todo, error) {
 	}, nil
 }
 
-func (tu *TodoUsecaseImpl) All() ([]*model.Todo, error) {
+func (tu *TodoApplicationServiceImpl) All() ([]*model.Todo, error) {
 	todos, err := tu.TodoRepository.All()
 	var results []*model.Todo
 	if err != nil {
@@ -95,7 +95,7 @@ func (tu *TodoUsecaseImpl) All() ([]*model.Todo, error) {
 	return results, nil
 }
 
-func (tu *TodoUsecaseImpl) Find(id string) (*model.Todo, error) {
+func (tu *TodoApplicationServiceImpl) Find(id string) (*model.Todo, error) {
 	todo, err := tu.TodoRepository.Find(id)
 	if err != nil {
 		return nil, err
@@ -107,7 +107,7 @@ func (tu *TodoUsecaseImpl) Find(id string) (*model.Todo, error) {
 	}, nil
 }
 
-func (tu *TodoUsecaseImpl) FindByUserID(id string) ([]*model.Todo, error) {
+func (tu *TodoApplicationServiceImpl) FindByUserID(id string) ([]*model.Todo, error) {
 	todos, err := tu.TodoRepository.FindByUserID(id)
 	var results []*model.Todo
 	if err != nil {

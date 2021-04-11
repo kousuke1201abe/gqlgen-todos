@@ -5,22 +5,22 @@ import (
 	model "github.com/kousuke1201abe/gqlgen-todos/internal/domain/models/users"
 )
 
-type UserUsecase interface {
+type UserApplicationService interface {
 	Create(name string) (*model.User, error)
 	All() ([]*model.User, error)
 	Find(id string) (*model.User, error)
 	FindByTodoID(id string) (*model.User, error)
 }
 
-type UserUsecaseImpl struct {
+type UserApplicationServiceImpl struct {
 	UserRepository model.UserRepository
 }
 
-func NewUserUsecase(UserRepository model.UserRepository) UserUsecase {
-	return &UserUsecaseImpl{UserRepository: UserRepository}
+func NewUserApplicationService(UserRepository model.UserRepository) UserApplicationService {
+	return &UserApplicationServiceImpl{UserRepository: UserRepository}
 }
 
-func (uu *UserUsecaseImpl) Create(name string) (*model.User, error) {
+func (uu *UserApplicationServiceImpl) Create(name string) (*model.User, error) {
 	id, _ := uuid.NewRandom()
 	user, err := uu.UserRepository.Create(&model.User{
 		ID:   id.String(),
@@ -35,7 +35,7 @@ func (uu *UserUsecaseImpl) Create(name string) (*model.User, error) {
 	}, nil
 }
 
-func (uu *UserUsecaseImpl) All() ([]*model.User, error) {
+func (uu *UserApplicationServiceImpl) All() ([]*model.User, error) {
 	users, err := uu.UserRepository.All()
 	var results []*model.User
 	if err != nil {
@@ -50,7 +50,7 @@ func (uu *UserUsecaseImpl) All() ([]*model.User, error) {
 	return results, nil
 }
 
-func (uu *UserUsecaseImpl) Find(id string) (*model.User, error) {
+func (uu *UserApplicationServiceImpl) Find(id string) (*model.User, error) {
 	user, err := uu.UserRepository.Find(id)
 	if err != nil {
 		return nil, err
@@ -61,7 +61,7 @@ func (uu *UserUsecaseImpl) Find(id string) (*model.User, error) {
 	}, nil
 }
 
-func (uu *UserUsecaseImpl) FindByTodoID(id string) (*model.User, error) {
+func (uu *UserApplicationServiceImpl) FindByTodoID(id string) (*model.User, error) {
 	user, err := uu.UserRepository.FindByTodoID(id)
 	if err != nil {
 		return nil, err

@@ -12,7 +12,7 @@ import (
 )
 
 func (r *todoResolver) User(ctx context.Context, obj *todoModel.Todo) (*userModel.User, error) {
-	return r.UserUsecase.FindByTodoID(obj.ID)
+	return r.UserApplicationService.FindByTodoID(obj.ID)
 }
 
 // Todo returns generated1.TodoResolver implementation.
