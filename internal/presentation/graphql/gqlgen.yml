@@ -14,8 +14,8 @@ exec:
 
 # Where should any generated models go?
 model:
-  filename: ../../domain/models/models_gen.go
-  package: model
+  filename: ./dto/dto.go
+  package: dto
 
 # Where should the resolver implementations go?
 resolver:
@@ -35,9 +35,7 @@ resolver:
 # gqlgen will search for any type names in the schema in these go packages
 # if they match it will use them, otherwise it will generate them.
 autobind:
-  - "github.com/kousuke1201abe/gqlgen-todos/internal/domain/models"
-  - "github.com/kousuke1201abe/gqlgen-todos/internal/domain/models/users"
-  - "github.com/kousuke1201abe/gqlgen-todos/internal/domain/models/todos"
+  - "github.com/kousuke1201abe/gqlgen-todos/internal/presentation/graphql/dto"
 
 # This section declares type mapping between the GraphQL and go type systems
 #

@@ -6,26 +6,46 @@ package resolvers
 import (
 	"context"
 
-	model "github.com/kousuke1201abe/gqlgen-todos/internal/domain/models"
-	"github.com/kousuke1201abe/gqlgen-todos/internal/domain/models/todos"
-	"github.com/kousuke1201abe/gqlgen-todos/internal/domain/models/users"
+	dto1 "github.com/kousuke1201abe/gqlgen-todos/internal/presentation/graphql/dto"
 	generated1 "github.com/kousuke1201abe/gqlgen-todos/internal/presentation/graphql/generated"
 )
 
-func (r *mutationResolver) UpdateTodo(ctx context.Context, input model.UpdateTodo) (*todos.Todo, error) {
-	return r.TodoApplicationService.Update(input.TodoID, input.Text)
+func (r *mutationResolver) UpdateTodo(ctx context.Context, input dto1.UpdateTodo) (*dto1.Todo, error) {
+	todo, _ := r.TodoApplicationService.Update(input.TodoID, input.Text)
+	return &dto1.Todo{
+		ID:     todo.ID,
+		Text:   todo.Text,
+		Done:   todo.Done,
+		UserID: todo.UserID,
+	}, nil
 }
 
-func (r *mutationResolver) CreateTodo(ctx context.Context, input model.NewTodo) (*todos.Todo, error) {
-	return r.TodoApplicationService.Create(input.Text, input.UserID)
+func (r *mutationResolver) CreateTodo(ctx context.Context, input dto1.NewTodo) (*dto1.Todo, error) {
+	todo, _ := r.TodoApplicationService.Create(input.Text, input.UserID)
+	return &dto1.Todo{
+		ID:     todo.ID,
+		Text:   todo.Text,
+		Done:   todo.Done,
+		UserID: todo.UserID,
+	}, nil
 }
 
-func (r *mutationResolver) DeleteTodo(ctx context.Context, input model.DeleteTodo) (*todos.Todo, error) {
-	return r.TodoApplicationService.Delete(input.TodoID)
+func (r *mutationResolver) DeleteTodo(ctx context.Context, input dto1.DeleteTodo) (*dto1.Todo, error) {
+	todo, _ := r.TodoApplicationService.Delete(input.TodoID)
+	return &dto1.Todo{
+		ID:     todo.ID,
+		Text:   todo.Text,
+		Done:   todo.Done,
+		UserID: todo.UserID,
+	}, nil
 }
 
-func (r *mutationResolver) CreateUser(ctx context.Context, input model.NewUser) (*users.User, error) {
-	return r.UserApplicationService.Create(input.Name)
+func (r *mutationResolver) CreateUser(ctx context.Context, input dto1.NewUser) (*dto1.User, error) {
+	user, _ := r.UserApplicationService.Create(input.Name)
+	return &dto1.User{
+		ID:   user.ID,
+		Name: user.Name,
+	}, nil
 }
 
 // Mutation returns generated1.MutationResolver implementation.

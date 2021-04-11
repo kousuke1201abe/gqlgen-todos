@@ -6,13 +6,21 @@ package resolvers
 import (
 	"context"
 
-	todoModel "github.com/kousuke1201abe/gqlgen-todos/internal/domain/models/todos"
-	userModel "github.com/kousuke1201abe/gqlgen-todos/internal/domain/models/users"
+	"github.com/kousuke1201abe/gqlgen-todos/internal/presentation/graphql/dto"
 	generated1 "github.com/kousuke1201abe/gqlgen-todos/internal/presentation/graphql/generated"
 )
 
-func (r *userResolver) Todos(ctx context.Context, obj *userModel.User) ([]*todoModel.Todo, error) {
-	return r.TodoApplicationService.FindByUserID(obj.ID)
+func (r *userResolver) Todos(ctx context.Context, obj *dto.User) ([]*dto.Todo, error) {
+	todos, _ := r.TodoApplicationService.FindByUserID(obj.ID)
+	var results []*dto.Todo
+	for _, todo := range todos {
+		results = append(results, &dto.Todo{
+			ID:   todo.ID,
+			Text: todo.Text,
+			Done: todo.Done,
+		})
+	}
+	return results, nil
 }
 
 // User returns generated1.UserResolver implementation.
